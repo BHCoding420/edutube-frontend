@@ -16,7 +16,7 @@ function App() {
 
 
     useEffect(() => {
-
+      console.log(process.env);
       const data = axios
         .get(`https://edutube-server.herokuapp.com/tutorials`)
         .then((response) => {
