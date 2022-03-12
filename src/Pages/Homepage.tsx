@@ -21,7 +21,7 @@ function App() {
         .get(`https://edutube-server.herokuapp.com/tutorials`)
         .then((response) => {
           console.log(response);
-          setvideos(response.data.tutorials.sort((a:any, b:any) => 0.5 - Math.random()));
+          setvideos(response.data.tutorials);
         })
         .catch((error) => {
           console.log(error);
