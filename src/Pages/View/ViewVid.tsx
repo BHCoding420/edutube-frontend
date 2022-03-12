@@ -99,14 +99,19 @@ const ViewVid = () => {
           })
   }
 
+
+
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API}/tutorials/view/${fileId}`)
       .then((res) => {
         console.log(res.data);
         setfile(res.data.tutorials[0]);
-        setLiked(res.data.tutorials[0].LikedBy.includes(User.id));
-        setDisliked(res.data.tutorials[0].DislikedBy.includes(User.id));
+        if(User) {
+          console.log("available : ",User);
+          //setaddedComment({...addedComment,"creator":User.id})
+
+        }
         setcurrentLikes(res.data.tutorials[0].LikedBy.length);
         setcurrentDislikes(res.data.tutorials[0].DislikedBy.length);
         setaddedComment({...addedComment,"referenceTutorial":res.data.tutorials[0]._id});
@@ -118,15 +123,21 @@ const ViewVid = () => {
       axios.get(`${process.env.REACT_APP_API}/comments/${fileId}`)
       .then((res) => {setComments(res.data.comments);})
 
+      if(User) {
+          setaddedComment({...addedComment,"creator":User.id})
+      }
+
   }, []);
 
-  const [addedComment, setaddedComment] = useState<CommentModel>({_id:"",referenceTutorial:"",creator:User.id,content:""});
+  const [addedComment, setaddedComment] = useState<CommentModel>({_id:"",referenceTutorial:"",creator:"",content:""});
 
   async function submitComment()
   {
-    console.log("adding",addedComment);
-    await axios.post(`${process.env.REACT_APP_API}/comments`,addedComment)
-         .then((res) => {console.log(res);setaddedComment({...addedComment,content:""});setComments([...Comments,addedComment])})
+    const comment_to_add = addedComment;
+    comment_to_add.creator = User.id;
+    console.log("adding",comment_to_add);
+    await axios.post(`${process.env.REACT_APP_API}/comments`,comment_to_add)
+         .then((res) => {console.log(res);setaddedComment({...addedComment,content:""});setComments([...Comments,comment_to_add])})
          .catch((err) => {console.log(err);});
 
   }
@@ -183,7 +194,7 @@ const ViewVid = () => {
           <div className="dropdown d-flex justify-content-start m-2">
               <img src={file.creator.pic} alt="Avatar" className="avatar mx-2"/>
               <small>{file.creator.userName}</small>
-              {User.id === file.creator._id &&
+              {(User && User?.id === file.creator._id) &&
                   <button type="button" className="btn btn-light btn-sm mx-2" style={{width:"8%",zIndex:"9",borderRadius:"50px"}} onClick={deleteTutorial} >
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
@@ -200,7 +211,7 @@ const ViewVid = () => {
           </p>
             <hr/>
             <h3>Comments :</h3>
-            <div className="d-flex">
+            {User &&<div className="d-flex">
 
               <img src={User.pic} alt="Avatar" className="avatar mx-2"/>
 
@@ -211,7 +222,7 @@ const ViewVid = () => {
                 </Button>
               </div>
 
-            </div>
+            </div>}
             { Comments && Comments.map((comment:CommentModel) => {return (
                 <Comment comment={comment} />
             )})
