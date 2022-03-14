@@ -47,6 +47,7 @@ const SignUp = () => {
 
     async function handleSubmit(e:any) {
         e.preventDefault();
+        seterrors({nameError:"",emailError:"",passwordError:""});
         let newUserData = registerData;
         //cloudinary stuff
         if (file) {

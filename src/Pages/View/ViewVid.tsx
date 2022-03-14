@@ -121,7 +121,7 @@ const ViewVid = () => {
       });
 
       axios.get(`${process.env.REACT_APP_API}/comments/${fileId}`)
-      .then((res) => {setComments(res.data.comments);})
+      .then((res) => {console.log( `comments for tut ${fileId}`,res.data.comments);setComments(res.data.comments);})
 
       if(User) {
           setaddedComment({...addedComment,"creator":User.id})
@@ -192,7 +192,7 @@ const ViewVid = () => {
           </Button>
           <br/>
           <div className="dropdown d-flex justify-content-start m-2">
-              <img src={file.creator.pic} alt="Avatar" className="avatar mx-2"/>
+              <img src={file.creator.pic ? file.creator.pic : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"} alt="Avatar" className="avatar mx-2"/>
               <small>{file.creator.userName}</small>
               {(User && User?.id === file.creator._id) &&
                   <button type="button" className="btn btn-light btn-sm mx-2" style={{width:"8%",zIndex:"9",borderRadius:"50px"}} onClick={deleteTutorial} >
@@ -213,7 +213,7 @@ const ViewVid = () => {
             <h3>Comments :</h3>
             {User &&<div className="d-flex">
 
-              <img src={User.pic} alt="Avatar" className="avatar mx-2"/>
+              <img src={User.pic ? User.pic : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"} alt="Avatar" className="avatar mx-2"/>
 
               <input type="text" className="form-control" placeholder="Enter comment here" value={addedComment.content} onChange={(e) => setaddedComment({...addedComment,"content":e.target.value})}   onKeyPress={(e) => {e.charCode === 13 && submitComment()}}/>
               <div className="input-group-append my-auto mx-2" >
@@ -225,8 +225,7 @@ const ViewVid = () => {
             </div>}
             { Comments && Comments.map((comment:CommentModel) => {return (
                 <Comment comment={comment} />
-            )})
-}
+            )}) }
 
 
 

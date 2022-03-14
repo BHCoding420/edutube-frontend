@@ -8,7 +8,7 @@ const Comment = ({comment}:any) => {
   return (
     <div className="d-flex my-2">
 
-    <img src={comment.creator.pic || user.pic} alt="Avatar" className="avatar mx-2"/>
+    <img src={comment.creator.pic ? comment.creator.pic : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"} alt="Avatar" className="avatar mx-2"/>
 
     <input type="text" className="form-control" placeholder={comment.content} readOnly/>
 

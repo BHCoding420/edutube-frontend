@@ -61,7 +61,7 @@ const Header = () => {
             </Nav>):(
                 <Nav className="d-flex justify-content-between" >
                     <div className="dropdown">
-                        <img src={User.pic} alt="Avatar" className="avatar"/>
+                        <img src={User.pic ? User.pic : "https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"} alt="Avatar" className="avatar"/>
                         <div className="dropdown-content">
                             <p onClick={() => navigate(`/profile/${User.id}`)}>Profile</p>
                             <p onClick={() => log_out()}>Log out</p>
