@@ -10,6 +10,7 @@ import { isDataView } from "util/types";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import UserProfile from "./Pages/UserProfile";
+import SearchedTuts from "./Pages/SearchedTuts";
 
 //import Chatpage from "./Pages/Chatpage";
 
@@ -25,6 +26,7 @@ function App() {
 
           <Route path="/view/:fileId" element={<ViewVid />}></Route>
           <Route path="/profile/:userId" element={<UserProfile />}></Route>
+          <Route path="/search/:search_query" element={<SearchedTuts />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
