@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import axios from 'axios';
 import { TutorialModel } from '../models/Video.model';
 import { Container,Image } from 'react-bootstrap';
-import TimeAgo from 'javascript-time-ago'
+
 import {useNavigate} from "react-router-dom";
 
 // English.
@@ -20,7 +20,7 @@ const SearchedTuts = () => {
     }, [])
 
 
-    const timeAgo:any = new TimeAgo('en-US');
+
     const navigate = useNavigate();
 
 

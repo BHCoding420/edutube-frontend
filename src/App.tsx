@@ -1,4 +1,5 @@
 import "./App.css";
+import React,{useState} from 'react'
 import Homepage from "./Pages/Homepage";
 //import SignUp from "./Pages/SignUp";
 //import Verification from "./Pages/Verification";
@@ -11,11 +12,13 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import UserProfile from "./Pages/UserProfile";
 import SearchedTuts from "./Pages/SearchedTuts";
+import EditProfile from "./Pages/EditProfile/EditProfile";
+import {getCurrentUser} from "./services/getCurrentUser";
 
 //import Chatpage from "./Pages/Chatpage";
 
 function App() {
-
+  const [User, setUser] = useState<any>(getCurrentUser());
   return (
     <div>
       <BrowserRouter>
@@ -27,6 +30,7 @@ function App() {
           <Route path="/view/:fileId" element={<ViewVid />}></Route>
           <Route path="/profile/:userId" element={<UserProfile />}></Route>
           <Route path="/search/:search_query" element={<SearchedTuts />}></Route>
+          <Route path="/editProfile/:userId" element={<EditProfile />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

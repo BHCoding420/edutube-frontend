@@ -6,7 +6,7 @@ import  { TutorialModel } from "../models/Video.model";
 import Videos from './Videos/Videos';
 import {Container,Image} from 'react-bootstrap';
 import {getCurrentUser} from '../services/getCurrentUser';
-
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -16,21 +16,28 @@ const UserProfile = () => {
     const [UserId, setUserId] = useState(userId);
     const [ProfileUser, setProfileUser] = useState<any>(null);
     const [CurrentUser, setCurrentUser] = useState<any>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      console.log(userId);
+    }, [userId])
 
     useEffect(() => {
       const res =
-        axios.get(`${process.env.REACT_APP_API}/tutorials/${UserId}`)
+        axios.get(`${process.env.REACT_APP_API}/tutorials/${userId}`)
         .then((response) => {setuserVideos(response.data.tutorials);})
         .catch((error) => {console.log(error.response);});
 
-      const getProfileUser = axios.get(`${process.env.REACT_APP_API}/users/${UserId}`)
-      .then((response) => {console.log(response.data);setProfileUser(response.data.users[0]);})
+      const getProfileUser = axios.get(`${process.env.REACT_APP_API}/users/${userId}`)
+      .then((response) => {
+        setProfileUser(response.data.users[0]);
+      })
       .catch((error) => {console.log(error.response);});
 
       setCurrentUser(getCurrentUser());
 
 
-    }, [])
+    }, [userId])
 
     async function followUser()
     {
@@ -65,7 +72,7 @@ const UserProfile = () => {
             <p className="lead">Followers: {ProfileUser?.followers.length}</p>
             <hr className="my-4"/>
 
-            {userId !== CurrentUser?.id &&
+            {CurrentUser && userId !== CurrentUser?.id &&
             <p className="lead">
               {
               !ProfileUser?.followers?.includes(CurrentUser.id) ?
@@ -77,6 +84,12 @@ const UserProfile = () => {
                 Unfollow
               </p>
               }
+            </p>}
+            {CurrentUser && userId === CurrentUser?.id &&
+            <p className="lead">
+              <p className="btn btn-primary btn-lg"  role="button" onClick={() => navigate(`/editProfile/${userId}`)}>
+                Edit Profile
+              </p>
             </p>}
           </div>
           <div className="row">
