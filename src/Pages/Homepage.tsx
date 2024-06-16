@@ -18,7 +18,7 @@ function App() {
     useEffect(() => {
       console.log(process.env);
       const data = axios
-        .get(`https://edutubeserver-production.up.railway.app/tutorials`)
+        .get(`https://edutube-server.onrender.com/tutorials`)
         .then((response) => {
           console.log(response);
           setvideos(response.data.tutorials);
